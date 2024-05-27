@@ -24,25 +24,6 @@ importers:
         specifier: ^5.3.3
         version: 5.3.3
 
-  apps/api-client:
-    dependencies:
-      swagger-typescript-api:
-        specifier: ^13.0.3
-        version: 13.0.3
-    devDependencies:
-      '@types/node':
-        specifier: ^20.11.30
-        version: 20.12.12
-      axios:
-        specifier: ^1.4.0
-        version: 1.4.0
-      tsx:
-        specifier: ^4.7.1
-        version: 4.7.1
-      typescript:
-        specifier: ^5.3.3
-        version: 5.3.3
-
   apps/docs:
     dependencies:
       '@repo/ui':
@@ -146,6 +127,25 @@ importers:
       prisma:
         specifier: ^5.14.0
         version: 5.14.0
+      typescript:
+        specifier: ^5.3.3
+        version: 5.3.3
+
+  packages/api-client:
+    dependencies:
+      swagger-typescript-api:
+        specifier: ^13.0.3
+        version: 13.0.3
+    devDependencies:
+      '@types/node':
+        specifier: ^20.11.30
+        version: 20.12.12
+      axios:
+        specifier: ^1.4.0
+        version: 1.4.0
+      tsx:
+        specifier: ^4.7.1
+        version: 4.7.1
       typescript:
         specifier: ^5.3.3
         version: 5.3.3
@@ -6038,11 +6038,13 @@ packages:
 
   /semver@6.3.1:
     resolution: {integrity: sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA==}
+    hasBin: true
     dev: true
 
   /semver@7.5.4:
     resolution: {integrity: sha512-1bCSESV6Pv+i21Hvpxp3Dx+pSD8lIPt8uVjRrxAUt/nbswYc+tK6Y2btiULjd4+fnq15PX+nqQDC7Oft7WkwcA==}
     engines: {node: '>=10'}
+    hasBin: true
     dependencies:
       lru-cache: 6.0.0
 
