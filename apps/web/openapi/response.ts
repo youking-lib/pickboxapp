@@ -1,4 +1,4 @@
-import { errorSchemaFactory } from "@/libs/schema";
+import { errorSchemaFactory } from "@/openapi/schema";
 import { ZodOpenApiComponentsObject } from "zod-openapi";
 
 export const openApiErrorResponses: ZodOpenApiComponentsObject["responses"] = {

@@ -16,7 +16,10 @@ export const client = new S3Client({
 
 export async function getUploadFilePreSignedUrl(filename: string) {
   const key = getFullKey(`${nanoid()}${path.extname(filename)}`);
-  return getPreSignedUrl(key);
+  return {
+    url: await getPreSignedUrl(key),
+    key,
+  };
 }
 
 export async function getPreSignedUrl(key: string) {

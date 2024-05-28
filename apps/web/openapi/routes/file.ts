@@ -1,4 +1,7 @@
 import { OpenAPIHono } from "@hono/zod-openapi";
+import { appendFileForToken, getExistFileByHash } from "@/libs/api/file";
+import { getUploadFilePreSignedUrl } from "@/libs/storage";
+
 import {
   AppendFileRouteSchema,
   PreHashRouteSchema,
@@ -7,21 +10,37 @@ import {
 
 export function file(api: OpenAPIHono) {
   api.openapi(AppendFileRouteSchema, async c => {
+    const { name, key, hash, tokenId } = c.req.valid("json");
+
+    const file = await appendFileForToken({
+      name,
+      key,
+      hash,
+      path: "",
+      size: "",
+      type: "",
+    });
+
+    return c.json(file as any);
+  });
+
+  api.openapi(UploadPreSignRouteSchema, async c => {
+    const { filename } = c.req.valid("json");
+
+    const { url, key } = await getUploadFilePreSignedUrl(filename);
+
     return c.json({
-      message: "Index",
+      url: url,
+      key: key,
     });
   });
 
-  api.openapi(UploadPreSignRouteSchema, c => {
-    return c.json({
-      url: "",
-      key: "",
-    });
-  });
+  api.openapi(PreHashRouteSchema, async c => {
+    const { hash } = c.req.valid("json");
+    const file = await getExistFileByHash(hash);
 
-  api.openapi(PreHashRouteSchema, c => {
     return c.json({
-      key: "",
+      key: file?.key || null,
     });
   });
 }

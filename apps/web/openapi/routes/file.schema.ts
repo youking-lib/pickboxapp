@@ -1,5 +1,6 @@
 import { createRoute, z } from "@hono/zod-openapi";
 import { openApiErrorResponses } from "@/openapi/response";
+import { FileModel } from "@/prisma/zods";
 
 export const AppendFileRouteSchema = createRoute({
   tags: ["File"],
@@ -12,10 +13,12 @@ export const AppendFileRouteSchema = createRoute({
     body: {
       content: {
         "application/json": {
-          schema: z.object({
-            key: z.string(),
-            hash: z.string(),
-            tokenId: z.string(),
+          schema: FileModel.pick({
+            size: true,
+            name: true,
+            key: true,
+            hash: true,
+            tokenId: true,
           }),
         },
       },
@@ -23,10 +26,10 @@ export const AppendFileRouteSchema = createRoute({
   },
   responses: {
     200: {
-      description: "Index",
+      description: "AppendFileRoute Success",
       content: {
         "application/json": {
-          schema: z.object({}),
+          schema: FileModel,
         },
       },
     },
@@ -46,8 +49,7 @@ export const UploadPreSignRouteSchema = createRoute({
       content: {
         "application/json": {
           schema: z.object({
-            tokenId: z.string(),
-            hash: z.string(),
+            size: z.number(),
             filename: z.string(),
           }),
         },

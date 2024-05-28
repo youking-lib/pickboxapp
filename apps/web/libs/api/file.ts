@@ -1,8 +1,8 @@
 import { prisma } from "@/libs/prisma";
 import { Prisma } from "@prisma/client";
 
-export function getExistFile(hash: string) {
-  return prisma.file.findUnique({
+export function getExistFileByHash(hash: string) {
+  return prisma.file.findFirst({
     where: {
       hash,
     },

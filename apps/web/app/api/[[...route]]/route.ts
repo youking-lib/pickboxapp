@@ -3,8 +3,6 @@ import { OpenAPIHono } from "@hono/zod-openapi";
 import { swaggerUI } from "@hono/swagger-ui";
 import { file, token } from "@/openapi";
 
-export const runtime = "edge";
-
 const app = new OpenAPIHono().basePath("/api");
 
 file(app);
