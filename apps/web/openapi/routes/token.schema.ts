@@ -21,16 +21,16 @@ export const CreateTokenRouteSchema = createRoute({
   },
   responses: {
     200: {
-      description: "Index",
+      description: "CreateTokenRouteSchema Success",
       content: {
         "application/json": {
           schema: z.object({
             id: z.string(),
             token: z.string(),
-            expires: z.date().nullable(),
+            expires: z.number().nullable(),
             userId: z.string().nullable(),
-            createAt: z.date(),
-            updateAt: z.date(),
+            createAt: z.number(),
+            updateAt: z.number(),
           }),
         },
       },

@@ -69,3 +69,36 @@ export const UploadPreSignRouteSchema = createRoute({
     ...openApiErrorResponses,
   },
 });
+
+export const PreHashRouteSchema = createRoute({
+  tags: ["File"],
+  operationId: "PreHash",
+  summary: "PreHash",
+  description: "PreHash",
+  method: "post",
+  path: "/file/pre-hash",
+  request: {
+    body: {
+      content: {
+        "application/json": {
+          schema: z.object({
+            hash: z.string(),
+          }),
+        },
+      },
+    },
+  },
+  responses: {
+    200: {
+      description: "Index",
+      content: {
+        "application/json": {
+          schema: z.object({
+            key: z.string().nullable(),
+          }),
+        },
+      },
+    },
+    ...openApiErrorResponses,
+  },
+});

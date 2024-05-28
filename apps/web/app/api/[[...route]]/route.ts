@@ -1,39 +1,19 @@
 import { handle } from "hono/vercel";
-import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
+import { OpenAPIHono } from "@hono/zod-openapi";
 import { swaggerUI } from "@hono/swagger-ui";
+import { file, token } from "@/openapi";
 
 export const runtime = "edge";
 
 const app = new OpenAPIHono().basePath("/api");
 
-app.openapi(
-  createRoute({
-    method: "get",
-    path: "/hello",
-    responses: {
-      200: {
-        description: "Respond a message",
-        content: {
-          "application/json": {
-            schema: z.object({
-              message: z.string(),
-            }),
-          },
-        },
-      },
-    },
-  }),
-  c => {
-    return c.json({
-      message: "hello",
-    });
-  }
-);
+file(app);
+token(app);
 
 app.get(
   "/ui",
   swaggerUI({
-    url: "/doc",
+    url: "/api/doc",
   })
 );
 

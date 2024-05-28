@@ -1,5 +1,9 @@
 import { OpenAPIHono } from "@hono/zod-openapi";
-import { AppendFileRouteSchema, UploadPreSignRouteSchema } from "./file.schema";
+import {
+  AppendFileRouteSchema,
+  PreHashRouteSchema,
+  UploadPreSignRouteSchema,
+} from "./file.schema";
 
 export function file(api: OpenAPIHono) {
   api.openapi(AppendFileRouteSchema, async c => {
@@ -11,6 +15,12 @@ export function file(api: OpenAPIHono) {
   api.openapi(UploadPreSignRouteSchema, c => {
     return c.json({
       url: "",
+      key: "",
+    });
+  });
+
+  api.openapi(PreHashRouteSchema, c => {
+    return c.json({
       key: "",
     });
   });

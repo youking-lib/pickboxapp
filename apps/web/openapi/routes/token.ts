@@ -1,8 +1,8 @@
-import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
+import { OpenAPIHono, createRoute } from "@hono/zod-openapi";
 import { CreateTokenRouteSchema } from "./token.schema";
 import { createToken } from "@/libs/api";
 
-export function tokens(api: OpenAPIHono) {
+export function token(api: OpenAPIHono) {
   api.openapi(CreateTokenRouteSchema, async c => {
     const { expires } = c.req.valid("json");
 
@@ -10,7 +10,14 @@ export function tokens(api: OpenAPIHono) {
       expires,
     });
 
-    return c.json(token);
+    return c.json({
+      id: token.id,
+      token: token.token,
+      userId: token.userId,
+      expires: token.expires?.getTime() || null,
+      createAt: token.createdAt.getTime(),
+      updateAt: token.updatedAt.getTime(),
+    });
   });
 
   api.openapi(
