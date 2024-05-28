@@ -17,9 +17,3 @@ export async function createToken(
 
   return token;
 }
-
-export async function appendFileForToken(file: Prisma.FileCreateInput) {
-  return await prisma.file.create({
-    data: file,
-  });
-}

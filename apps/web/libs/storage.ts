@@ -1,3 +1,5 @@
+import { nanoid } from "nanoid";
+import * as path from "path";
 import { HeadObjectCommand, GetObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { CloudflareR2Constants } from "@/libs/constant";
@@ -11,6 +13,11 @@ export const client = new S3Client({
     secretAccessKey: CloudflareR2Constants.R2_SECRET_ACCESS_KEY || "",
   },
 });
+
+export async function getUploadFilePreSignedUrl(filename: string) {
+  const key = getFullKey(`${nanoid()}${path.extname(filename)}`);
+  return getPreSignedUrl(key);
+}
 
 export async function getPreSignedUrl(key: string) {
   const preSignedUrl = await getSignedUrl(
@@ -33,4 +40,8 @@ export async function getMetaData(Key: string) {
   );
 
   return res;
+}
+
+export function getFullKey(filename: string) {
+  return path.join(CloudflareR2Constants.BASE_PATH, filename);
 }

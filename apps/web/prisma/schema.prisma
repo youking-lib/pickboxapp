@@ -58,8 +58,8 @@ model Token {
 
 model File {
   id   String @id @default(cuid())
-  key  String @unique // aws s3 path
-  hash String @unique // file md5 hash
+  key  String // aws s3 path
+  hash String // file md5 hash
 
   name      String
   path      String

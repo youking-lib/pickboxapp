@@ -3,8 +3,9 @@ import { appendFile } from "./append-file";
 import { uploadFilePreSign } from "./upload-pre-sign";
 
 export * from "./append-file";
+export * from "./upload-pre-sign";
 
-export const tokensPaths: ZodOpenApiPathsObject = {
+export const filePaths: ZodOpenApiPathsObject = {
   "/file": {
     post: appendFile,
   },

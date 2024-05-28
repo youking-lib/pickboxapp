@@ -3,7 +3,8 @@ import { openApiErrorResponses } from "@/libs/openapi/response";
 import { ZodOpenApiOperationObject } from "zod-openapi";
 
 export const AppendFileBodySchema = z.object({
-  filename: z.string(),
+  key: z.string(),
+  hash: z.string(),
   tokenId: z.string(),
 });
 

@@ -1,10 +1,12 @@
 import { createDocument } from "zod-openapi";
 import { openApiErrorResponses } from "./response";
 import { tokensPaths } from "./tokens";
+import { filePaths } from "./file";
 
 const API_DOMAIN = "pickbox.app";
 
 export * from "./tokens";
+export * from "./file";
 
 export const document = createDocument({
   openapi: "3.0.3",
@@ -30,6 +32,7 @@ export const document = createDocument({
   ],
   paths: {
     ...tokensPaths,
+    ...filePaths,
   },
   components: {
     schemas: {},

@@ -5,6 +5,7 @@ import { ZodOpenApiOperationObject } from "zod-openapi";
 export const UploadFilePreSignBodySchema = z.object({
   tokenId: z.string(),
   hash: z.string(),
+  filename: z.string(),
 });
 
 export const UploadFilePreSignDataSchema = z.object({
