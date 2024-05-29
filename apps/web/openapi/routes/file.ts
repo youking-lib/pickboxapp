@@ -10,15 +10,14 @@ import {
 
 export function file(api: OpenAPIHono) {
   api.openapi(AppendFileRouteSchema, async c => {
-    const { name, key, hash, tokenId } = c.req.valid("json");
+    const { name, key, hash, size, type, tokenId } = c.req.valid("json");
 
     const file = await appendFileForToken({
       name,
       key,
       hash,
-      path: "",
-      size: "",
-      type: "",
+      size,
+      type,
     });
 
     return c.json(file as any);

@@ -67,7 +67,6 @@ model File {
   hash String // file md5 hash
 
   name      String
-  path      String
   size      Decimal
   type      String
   createdAt DateTime @default(now())

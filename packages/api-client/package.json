@@ -1,5 +1,5 @@
 {
-  "name": "api-client",
+  "name": "@repo/api-client",
   "private": true,
   "type": "module",
   "license": "MIT",

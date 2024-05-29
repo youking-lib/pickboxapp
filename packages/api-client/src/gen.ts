@@ -6,8 +6,10 @@ run();
 async function run() {
   generateApi({
     name: "PickboxAPI",
-    url: "http://127.0.0.1:3000/api",
+    url: "http://127.0.0.1:3000/api/doc",
     output: path.resolve(process.cwd(), "./src/generate"),
     httpClientType: "axios",
+    modular: true,
+    generateClient: true,
   });
 }

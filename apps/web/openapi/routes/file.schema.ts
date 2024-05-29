@@ -13,12 +13,10 @@ export const AppendFileRouteSchema = createRoute({
     body: {
       content: {
         "application/json": {
-          schema: FileModel.pick({
-            size: true,
-            name: true,
-            key: true,
-            hash: true,
-            tokenId: true,
+          schema: FileModel.omit({
+            createdAt: true,
+            updatedAt: true,
+            id: true,
           }),
         },
       },
@@ -49,7 +47,6 @@ export const UploadPreSignRouteSchema = createRoute({
       content: {
         "application/json": {
           schema: z.object({
-            size: z.number(),
             filename: z.string(),
           }),
         },
@@ -63,7 +60,7 @@ export const UploadPreSignRouteSchema = createRoute({
         "application/json": {
           schema: z.object({
             url: z.string(),
-            key: z.string().nullable(),
+            key: z.string(),
           }),
         },
       },
