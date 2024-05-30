@@ -230,9 +230,15 @@ importers:
       '@repo/api-client':
         specifier: workspace:*
         version: link:../api-client
+      immer:
+        specifier: ^10.1.1
+        version: 10.1.1
       js-md5:
         specifier: ^0.8.3
         version: 0.8.3
+      use-immer:
+        specifier: ^0.9.0
+        version: 0.9.0(immer@10.1.1)(react@18.2.0)
     devDependencies:
       '@types/react':
         specifier: ^18.2.61
@@ -5992,6 +5998,10 @@ packages:
     engines: {node: '>= 4'}
     dev: true
 
+  /immer@10.1.1:
+    resolution: {integrity: sha512-s2MPrmjovJcoMaHtx6K11Ra7oD05NT97w1IC5zpMkT6Atjr7H8LjaDd81iIxUYpMKSRRNMJE703M1Fhr/TctHw==}
+    dev: false
+
   /import-fresh@3.3.0:
     resolution: {integrity: sha512-veYYhQa+D1QBKznvhUHxb8faxlrwUnxseDAbAp457E0wLNio2bOSKnjYDhMj+YiAq61xrMGhQk9iXVk5FzgQMw==}
     engines: {node: '>=6'}
@@ -8537,6 +8547,16 @@ packages:
       '@types/react': 18.2.61
       react: 18.2.0
       tslib: 2.6.2
+    dev: false
+
+  /use-immer@0.9.0(immer@10.1.1)(react@18.2.0):
+    resolution: {integrity: sha512-/L+enLi0nvuZ6j4WlyK0US9/ECUtV5v9RUbtxnn5+WbtaXYUaOBoKHDNL9I5AETdurQ4rIFIj/s+Z5X80ATyKw==}
+    peerDependencies:
+      immer: '>=2.0.0'
+      react: ^16.8.0 || ^17.0.1 || ^18.0.0
+    dependencies:
+      immer: 10.1.1
+      react: 18.2.0
     dev: false
 
   /use-sidecar@1.1.2(@types/react@18.2.61)(react@18.2.0):

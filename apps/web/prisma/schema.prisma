@@ -21,28 +21,8 @@ model User {
   anonymous     Boolean   @default(false)
   createdAt     DateTime  @default(now())
 
-  key          Key[]
-  auth_session Session[]
-  token        Token[]
-}
-
-model Session {
-  id             String @id @unique
-  user_id        String
-  active_expires BigInt
-  idle_expires   BigInt
-  user           User   @relation(references: [id], fields: [user_id], onDelete: Cascade)
-
-  @@index([user_id])
-}
-
-model Key {
-  id              String  @id @unique
-  hashed_password String?
-  user_id         String
-  user            User    @relation(references: [id], fields: [user_id], onDelete: Cascade)
-
-  @@index([user_id])
+  token Token[]
+  File  File[]
 }
 
 model Token {
@@ -74,4 +54,7 @@ model File {
 
   token   Token?  @relation(fields: [tokenId], references: [id])
   tokenId String?
+
+  user   User?   @relation(fields: [userId], references: [id])
+  userId String?
 }

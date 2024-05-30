@@ -1,60 +1,37 @@
-import {
-  Theme,
-  Flex,
-  Box,
-  Button,
-  TextField,
-  IconButton,
-} from "@radix-ui/themes";
-import {
-  LockClosedIcon,
-  PaperPlaneIcon,
-  PlusCircledIcon,
-} from "@radix-ui/react-icons";
-import { fileApi } from "@repo/api-client/src";
-import { useRef } from "react";
+import { Theme, Flex, Box } from "@radix-ui/themes";
+import { UploadFileTrigger } from "./components/upload-file-trigger";
+import { ReceiveCodeInput } from "./components/receive-code-input";
+import { UploadProgress } from "./components/upload-progress";
+import { ModelProvider } from "./model/provider";
+import { useSelector } from "./hooks";
+import { StateSelectors } from "./model";
 
 export function Island() {
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  return (
+    <ModelProvider>
+      <Theme data-is-root-theme="false">
+        <Main />
+      </Theme>
+    </ModelProvider>
+  );
+}
+
+function Main() {
+  const variant = useSelector(StateSelectors.getViewVariant);
 
   return (
-    <Theme data-is-root-theme="false">
+    <>
       <Flex gap="2" width="540px" align="center">
         <Box>
-          <Button
-            size="3"
-            variant="soft"
-            onClick={() => {
-              fileInputRef.current?.click();
-            }}
-          >
-            <PlusCircledIcon />
-            SAVE
-          </Button>
-
-          <input type="file" hidden ref={fileInputRef} onChange={e => {}} />
+          <UploadFileTrigger />
         </Box>
 
         <Box flexGrow="1">
-          <TextField.Root
-            variant="soft"
-            size="3"
-            placeholder="RECEIVE BY PICK-UP CODE"
-          >
-            <TextField.Slot>
-              <IconButton size="1" variant="ghost">
-                <LockClosedIcon />
-              </IconButton>
-            </TextField.Slot>
-
-            <TextField.Slot>
-              <IconButton size="1" variant="ghost">
-                <PaperPlaneIcon />
-              </IconButton>
-            </TextField.Slot>
-          </TextField.Root>
+          <ReceiveCodeInput />
         </Box>
       </Flex>
-    </Theme>
+
+      {variant === "uploading" && <UploadProgress />}
+    </>
   );
 }
