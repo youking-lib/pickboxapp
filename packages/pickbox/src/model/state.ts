@@ -1,6 +1,12 @@
 import { immerable, produce } from "immer";
 
 export type ViewStateVariant = "default" | "uploading";
+export type UploadingFile = {
+  id: number;
+  file: File;
+  progress: number;
+  status: "pending" | "uploading" | "success" | "error";
+};
 
 export class ModelState {
   [immerable] = true;
@@ -9,7 +15,7 @@ export class ModelState {
     variant: "default" as ViewStateVariant,
 
     uploading: {
-      uploadFiles: [] as File[],
+      uploadFiles: [] as UploadingFile[],
     },
   };
 
