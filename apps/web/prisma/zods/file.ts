@@ -1,5 +1,5 @@
 import * as z from "zod"
-import { CompleteToken, RelatedTokenModel } from "./index"
+import { CompleteToken, RelatedTokenModel, CompleteUser, RelatedUserModel } from "./index"
 
 export const FileModel = z.object({
   id: z.string(),
@@ -11,10 +11,12 @@ export const FileModel = z.object({
   createdAt: z.date(),
   updatedAt: z.date(),
   tokenId: z.string().nullish(),
+  userId: z.string().nullish(),
 })
 
 export interface CompleteFile extends z.infer<typeof FileModel> {
   token?: CompleteToken | null
+  user?: CompleteUser | null
 }
 
 /**
@@ -24,4 +26,5 @@ export interface CompleteFile extends z.infer<typeof FileModel> {
  */
 export const RelatedFileModel: z.ZodSchema<CompleteFile> = z.lazy(() => FileModel.extend({
   token: RelatedTokenModel.nullish(),
+  user: RelatedUserModel.nullish(),
 }))

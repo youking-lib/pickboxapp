@@ -5,6 +5,7 @@ export type UploadingFile = {
   id: number;
   file: File;
   progress: number;
+  rate: number;
   status: "pending" | "uploading" | "success" | "error";
 };
 

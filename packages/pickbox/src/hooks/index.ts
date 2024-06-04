@@ -16,7 +16,3 @@ export function useSelector<T>(
     deps.concat(model.state)
   );
 }
-
-export function useDispatch() {
-  return useSelector((_, dispath) => dispath);
-}

@@ -1,6 +1,6 @@
 import { nanoid } from "nanoid";
 import * as path from "path";
-import { HeadObjectCommand, GetObjectCommand } from "@aws-sdk/client-s3";
+import { HeadObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { CloudflareR2Constants } from "@/libs/constant";
 import { S3Client } from "@aws-sdk/client-s3";
@@ -17,18 +17,15 @@ export const client = new S3Client({
 export async function getUploadFilePreSignedUrl(filename: string) {
   const key = getFullKey(`${nanoid()}${path.extname(filename)}`);
   return {
-    url: await getPreSignedUrl(key),
+    url: await getPutPreSignedUrl(key),
     key,
   };
 }
 
-export async function getPreSignedUrl(key: string) {
+export async function getPutPreSignedUrl(Key: string) {
   const preSignedUrl = await getSignedUrl(
     client,
-    new GetObjectCommand({
-      Bucket: CloudflareR2Constants.R2_BUCKET_NAME,
-      Key: key,
-    }),
+    new PutObjectCommand({ Bucket: CloudflareR2Constants.R2_BUCKET_NAME, Key }),
     { expiresIn: 3600 }
   );
   return preSignedUrl;

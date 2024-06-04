@@ -1,16 +1,25 @@
 import { Table } from "@radix-ui/themes";
-import { useSelector } from "../hooks";
+import { useModel, useSelector } from "../hooks";
 import { StateSelectors, UploadingFile } from "../model";
+import { useEffect } from "react";
+import { UploadAction } from "../model-actions/upload";
 
 type UploadProgressProps = {};
 
 export function UploadProgress(props: UploadProgressProps) {
-  const uploadingState = useSelector(StateSelectors.getUploadingState);
+  const model = useModel();
+  const uploadingFiles = useSelector(StateSelectors.getUploadingFiles);
+
+  useEffect(() => {
+    if (uploadingFiles.length > 0) {
+      UploadAction.chunkUploadingFiles(model);
+    }
+  }, []);
 
   return (
     <Table.Root variant="surface" mt="2">
       <Table.Body>
-        {uploadingState.uploadFiles.map((item, index) => {
+        {uploadingFiles.map((item, index) => {
           return (
             <UploadingItem key={item.id} uploadingFile={item} index={index} />
           );

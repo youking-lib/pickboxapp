@@ -1,12 +1,20 @@
 import { useRef } from "react";
 import { Button } from "@radix-ui/themes";
 import { PlusCircledIcon } from "@radix-ui/react-icons";
-import { useDispatch } from "../hooks";
-import { StateMutations } from "../model";
+import { useModel } from "../hooks";
+import { UploadModifier } from "../model-modifiers";
 
 export function UploadFileTrigger() {
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const dispatch = useDispatch();
+  const dispatch = useModel().dispatch;
+
+  const onUploadFiles = (files: File[]) => {
+    if (files.length > 0) {
+      dispatch(state =>
+        UploadModifier.setUploadFiles(state, Array.from(files))
+      );
+    }
+  };
 
   return (
     <>
@@ -27,13 +35,9 @@ export function UploadFileTrigger() {
         type="file"
         ref={fileInputRef}
         onChange={e => {
-          const files = e.target.files || [];
+          const files = Array.from(e.target.files || []);
 
-          if (files.length > 0) {
-            dispatch(state =>
-              StateMutations.setUploadFiles(state, Array.from(files))
-            );
-          }
+          onUploadFiles(files);
         }}
       />
     </>
