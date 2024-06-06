@@ -18,6 +18,7 @@
     "@repo/api-client": "workspace:*",
     "immer": "^10.1.1",
     "js-md5": "^0.8.3",
+    "localforage": "^1.10.0",
     "lodash-es": "^4.17.21",
     "use-immer": "^0.9.0"
   }

@@ -23,7 +23,7 @@ export class Token<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
   createTokenRouteSchema = (
     data: {
       /** Expires at time */
-      expires?: string;
+      expires?: number;
     },
     params: RequestParams = {},
   ) =>

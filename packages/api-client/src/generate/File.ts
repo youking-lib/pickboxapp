@@ -28,6 +28,7 @@ export class File<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
       size: number;
       type: string;
       tokenId?: string | null;
+      userId?: string | null;
     },
     params: RequestParams = {},
   ) =>
@@ -42,6 +43,7 @@ export class File<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
         createdAt: string;
         updatedAt: string;
         tokenId?: string | null;
+        userId?: string | null;
       },
       | {
           error: {

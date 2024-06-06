@@ -7,7 +7,7 @@ export function token(api: OpenAPIHono) {
     const { expires } = c.req.valid("json");
 
     const token = await createToken({
-      expires,
+      expires: expires ? new Date(expires) : undefined,
     });
 
     return c.json({

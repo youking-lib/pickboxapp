@@ -7,7 +7,7 @@ export const TokenModel = z.object({
   expires: z.date().nullish(),
   createdAt: z.date(),
   updatedAt: z.date(),
-  userId: z.string(),
+  userId: z.string().nullish(),
 })
 
 export interface CompleteToken extends z.infer<typeof TokenModel> {

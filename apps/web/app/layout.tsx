@@ -22,7 +22,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={inter.className}>
-          <Theme accentColor="grass">{children}</Theme>
+          <Theme accentColor="violet">{children}</Theme>
         </body>
       </html>
     </ClerkProvider>

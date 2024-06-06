@@ -1,10 +1,11 @@
 import { Theme, Flex, Box } from "@radix-ui/themes";
 import { UploadFileTrigger } from "./components/upload-file-trigger";
 import { ReceiveCodeInput } from "./components/receive-code-input";
-import { UploadProgress } from "./components/upload-progress";
+import { UploadProgress } from "./components/uploading-progress";
 import { ModelProvider } from "./model/provider";
 import { useSelector } from "./hooks";
 import { StateSelectors } from "./model";
+import { UploadingBar } from "./components/uploading-bar";
 
 export function Island() {
   return (
@@ -22,13 +23,15 @@ function Main() {
   return (
     <>
       <Flex gap="2" width="540px" align="center">
-        <Box>
-          <UploadFileTrigger />
+        <Box flexGrow="1">
+          {variant === "default" && <ReceiveCodeInput />}
+
+          {variant === "uploading" && <UploadingBar />}
         </Box>
 
-        <Box flexGrow="1">
-          <ReceiveCodeInput />
-        </Box>
+        <Flex gap="2" justify="between">
+          <UploadFileTrigger />
+        </Flex>
       </Flex>
 
       {variant === "uploading" && <UploadProgress />}

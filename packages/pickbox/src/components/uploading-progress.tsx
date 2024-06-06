@@ -12,7 +12,7 @@ export function UploadProgress(props: UploadProgressProps) {
 
   useEffect(() => {
     if (uploadingFiles.length > 0) {
-      UploadAction.chunkUploadingFiles(model);
+      UploadAction.upload(model);
     }
   }, []);
 

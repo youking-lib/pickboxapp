@@ -1,4 +1,5 @@
 import { immerable, produce } from "immer";
+import { tokenApi } from "@repo/api-client/src";
 
 export type ViewStateVariant = "default" | "uploading";
 export type UploadingFile = {
@@ -9,6 +10,11 @@ export type UploadingFile = {
   status: "pending" | "uploading" | "success" | "error";
 };
 
+export type Token = Pick<
+  Awaited<ReturnType<typeof tokenApi.createTokenRouteSchema>>["data"],
+  "id" | "token" | "expires"
+>;
+
 export class ModelState {
   [immerable] = true;
 
@@ -16,6 +22,7 @@ export class ModelState {
     variant: "default" as ViewStateVariant,
 
     uploading: {
+      token: null as null | Token,
       uploadFiles: [] as UploadingFile[],
     },
   };

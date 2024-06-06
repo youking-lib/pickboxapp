@@ -1,12 +1,12 @@
 import { md5 } from "js-md5";
 import { chunk } from "lodash-es";
-import { fileApi, axios } from "@repo/api-client/src";
+import { fileApi, axios, tokenApi } from "@repo/api-client/src";
 import { Model, StateSelectors, UploadingFile } from "../model";
-import { UploadModifier } from "../model-modifiers";
+import { TokenModifier, UploadModifier } from "../model-modifiers";
 
 type onProgressEvent = { progress: number; rate: number };
 type onProgress = (event: onProgressEvent) => void;
-type ChunkUploadingFiles = {
+type ChunkUploadingFilesOptions = {
   chunkSize?: number;
   onProgress?: (uploadingFile: UploadingFile, event: onProgressEvent) => void;
   onSuccess?: (
@@ -17,24 +17,42 @@ type ChunkUploadingFiles = {
 };
 
 export const UploadAction = {
+  async upload(model: Model, options: ChunkUploadingFilesOptions = {}) {
+    const result = await tokenApi.createTokenRouteSchema({});
+
+    model.dispatch(state =>
+      TokenModifier.setUploadingToken(state, {
+        id: result.data.id,
+        token: result.data.token,
+        expires: result.data.expires,
+      })
+    );
+
+    return this.chunkUploadingFiles(model, result.data.id, options);
+  },
+
   async chunkUploadingFiles(
     model: Model,
-    { chunkSize = 2, onError, onProgress, onSuccess }: ChunkUploadingFiles = {}
+    tokenId: string,
+    {
+      chunkSize = 2,
+      onError,
+      onProgress,
+      onSuccess,
+    }: ChunkUploadingFilesOptions = {}
   ) {
-    const token = "";
     const uploadingFiles = StateSelectors.getUploadingFilesByStatus(
       model.state,
       "pending"
     );
 
     const fileToUploadingFile = new Map<File, UploadingFile>();
-
     const files = uploadingFiles.map(uploadingFile => {
       fileToUploadingFile.set(uploadingFile.file, uploadingFile);
       return uploadingFile.file;
     });
 
-    await chunkUploadFilesForToken(files, token, {
+    await chunkUploadFilesForToken(files, tokenId, {
       chunkSize,
       onError(file, result) {
         const uploadingFile = fileToUploadingFile.get(file)!;
@@ -84,7 +102,7 @@ type ChunkUploadFilesForTokenOptions = {
 
 export async function chunkUploadFilesForToken(
   files: File[],
-  token: string,
+  tokenId: string,
   {
     onProgress,
     onSuccess,
@@ -98,7 +116,7 @@ export async function chunkUploadFilesForToken(
   for (let chunked of chunks) {
     const promises = chunked.map(async file => {
       try {
-        const result = await uploadFileForToken(file, token, event => {
+        const result = await uploadFileForToken(file, tokenId, event => {
           onProgress?.(file, event);
         });
 
@@ -124,7 +142,7 @@ export async function chunkUploadFilesForToken(
 
 export async function uploadFileForToken(
   file: File,
-  token: string,
+  tokenId: string,
   onProgress?: onProgress
 ) {
   const hash = await fileToMd5(file);
@@ -145,6 +163,7 @@ export async function uploadFileForToken(
     type: file.type,
     hash,
     key,
+    tokenId,
   });
 
   return res.data;

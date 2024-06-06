@@ -10,7 +10,6 @@ export async function createToken(
   const token = await prisma.token.create({
     data: {
       expires: data.expires,
-      user: data.user,
       token: uuid(),
     },
   });

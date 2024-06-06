@@ -13,7 +13,7 @@ export const CreateTokenRouteSchema = createRoute({
       content: {
         "application/json": {
           schema: z.object({
-            expires: z.date().optional().describe("Expires at time"),
+            expires: z.number().optional().describe("Expires at time"),
           }),
         },
       },

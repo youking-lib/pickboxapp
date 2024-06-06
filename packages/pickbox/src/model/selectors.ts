@@ -5,6 +5,9 @@ export const getViewVariant = (state: ModelState) => state.viewState.variant;
 export const getUploadingFiles = (state: ModelState) =>
   state.viewState.uploading.uploadFiles;
 
+export const getUploadingToken = (state: ModelState) =>
+  state.viewState.uploading.token;
+
 export const getUploadingFilesByStatus = (
   state: ModelState,
   status: UploadingFile["status"]

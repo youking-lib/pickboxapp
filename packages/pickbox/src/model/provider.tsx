@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { Updater, useImmer } from "use-immer";
 import { ModelState } from "./state";
+import { getModelCache, setModelCache } from "../model-helpers/localstorage";
 
 export type ModelProviderProps = React.PropsWithChildren<{
   defaultState?: Partial<ModelState>;
@@ -21,12 +22,28 @@ export function ModelProvider(props: ModelProviderProps) {
       }
     })
   );
+
   const modelRef = useRef({
     state,
     dispatch,
   });
 
   modelRef.current.state = state;
+
+  useEffect(function localStorageToModelState() {
+    getModelCache().then(preload => {
+      if (preload) {
+        dispatch(preload);
+      }
+    });
+  }, []);
+
+  useEffect(
+    function modelStateToLocalStorage() {
+      setModelCache(state);
+    },
+    [state]
+  );
 
   useEffect(() => {
     // @ts-ignore
